@@ -1,5 +1,9 @@
 # SMTCP
 
+[![Coverage Status](https://coveralls.io/repos/github/schweigert/smtcp/badge.svg?branch=master)](https://coveralls.io/github/schweigert/smtcp?branch=master)
+
+[![Build Status](https://travis-ci.org/schweigert/smtcp.svg?branch=master)](https://travis-ci.org/schweigert/smtcp)
+
 `Shuffled Messaging Protocol over Transmission Control Protocol` or SMTCP is a library that implements exchange of messages on the standard net go language library.
 
 This protocol allows the implementation of complete two-way RCP systems.
