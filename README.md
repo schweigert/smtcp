@@ -52,5 +52,6 @@ C: N bytes, the content of a message.
 A connection terminates correctly when a message with a zero-sized service name is sent:
 
 ```
-0000
+0000 0000
+siz1 sprm
 ```
