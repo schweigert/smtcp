@@ -12,6 +12,14 @@ func TestBytesToUint(t *testing.T) {
 	actual := BytesToUint(raw)
 
 	assert.Equal(t, expected, actual)
+
+	// Need 4 bytes
+	raw = []byte{1, 1, 1}
+
+	expected = uint32(0)
+	actual = BytesToUint(raw)
+
+	assert.Equal(t, expected, actual)
 }
 
 func TestUint32ToBytes(t *testing.T) {
