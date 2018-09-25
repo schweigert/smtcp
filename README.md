@@ -1,3 +1,5 @@
+![alt text](logo.png)
+
 # SMTCP
 
 [![Coverage Status](https://coveralls.io/repos/github/schweigert/smtcp/badge.svg?branch=master)](https://coveralls.io/github/schweigert/smtcp?branch=master)
