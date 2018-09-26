@@ -7,6 +7,28 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestNewTcpActivePeer(t *testing.T) {
+	listener, errL := NewTcpActiveListener("3031", nil)
+	assert.NoError(t, errL)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		peerL := listener.Accept()
+		errL = listener.Close()
+		assert.NoError(t, errL)
+
+		errL = peerL.Close()
+		assert.NoError(t, errL)
+		wg.Done()
+	}()
+
+	peer, err := NewTcpActivePeer("localhost:3031", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, peer)
+	wg.Wait()
+}
+
 func TestActivePeerWorkLoop(t *testing.T) {
 	oneCalls := 0
 	twoCalls := 0

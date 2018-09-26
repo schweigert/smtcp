@@ -9,6 +9,11 @@ type ActivePeer struct {
 	WaitGroup *sync.WaitGroup
 }
 
+func NewTcpActivePeer(host string, lambdaSet *LambdaSet) (*ActivePeer, error) {
+	peer, err := NewTcpPeer(host)
+	return NewActivePeer(peer, lambdaSet), err
+}
+
 func NewActivePeer(peer *Peer, lambdaSet *LambdaSet) *ActivePeer {
 	return &ActivePeer{Peer: peer, LambdaSet: lambdaSet, Closed: false, WaitGroup: &sync.WaitGroup{}}
 }

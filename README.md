@@ -7,6 +7,8 @@
 
 `Shuffled Messaging Protocol over Transmission Control Protocol` or SMTCP implements two-way RPC over net.Conn.
 
+This can be very useful for developing games services or real-time messaging systems.
+
 ```go
 package main
 

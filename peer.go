@@ -9,6 +9,11 @@ type Peer struct {
 	conn net.Conn
 }
 
+func NewTcpPeer(host string) (*Peer, error) {
+	conn, err := net.Dial("tcp", host)
+	return NewPeer(conn), err
+}
+
 func NewPeer(conn net.Conn) *Peer {
 	return &Peer{conn: conn}
 }
