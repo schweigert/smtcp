@@ -66,3 +66,7 @@ func (r *Request) Envelope() []byte {
 
 	return []byte(envelope)
 }
+
+func (r *Request) Send() {
+	r.Peer.Send(r)
+}

@@ -39,4 +39,9 @@ func (ap *ActivePeer) loop() {
 	if ap.Closed {
 		return
 	}
+
+	r, err := ap.Peer.Receive()
+	if err == nil {
+		ap.LambdaSet.Execute(r)
+	}
 }
