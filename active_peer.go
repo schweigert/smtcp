@@ -1,13 +1,16 @@
 package smtcp
 
+import "sync"
+
 type ActivePeer struct {
 	Peer      *Peer
 	LambdaSet *LambdaSet
 	Closed    bool
+	WaitGroup *sync.WaitGroup
 }
 
 func NewActivePeer(peer *Peer, lambdaSet *LambdaSet) *ActivePeer {
-	return &ActivePeer{Peer: peer, LambdaSet: lambdaSet, Closed: false}
+	return &ActivePeer{Peer: peer, LambdaSet: lambdaSet, Closed: false, WaitGroup: &sync.WaitGroup{}}
 }
 
 func NewActivePipe(lambdaSet *LambdaSet) (*ActivePeer, *ActivePeer) {
@@ -17,10 +20,12 @@ func NewActivePipe(lambdaSet *LambdaSet) (*ActivePeer, *ActivePeer) {
 
 func (ap *ActivePeer) Close() error {
 	ap.Closed = true
+	ap.WaitGroup.Done()
 	return ap.Peer.Close()
 }
 
 func (ap *ActivePeer) Work() {
+	ap.WaitGroup.Add(1)
 	go func() {
 		for {
 			if ap.Closed {
@@ -29,6 +34,10 @@ func (ap *ActivePeer) Work() {
 			ap.loop()
 		}
 	}()
+}
+
+func (ap *ActivePeer) Wait() {
+	ap.WaitGroup.Wait()
 }
 
 func (ap *ActivePeer) Send(r *Request) error {

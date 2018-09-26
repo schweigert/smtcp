@@ -33,15 +33,20 @@ func TestActivePeerWorkLoop(t *testing.T) {
 	})
 	activePeerOne, activePeerTwo := NewActivePipe(lambdaSet)
 
-	defer activePeerOne.Close()
-	defer activePeerTwo.Close()
-
 	activePeerOne.Work()
 	activePeerTwo.Work()
 
-	NewRequest("one", NewParams(), activePeerOne.Peer).Send()
+	err := activePeerOne.Send(NewRequest("one", NewParams(), activePeerOne.Peer))
+	assert.NoError(t, err)
+
 	wg.Wait()
 
-	assert.Equal(t, 11, oneCalls)
-	assert.Equal(t, 11, twoCalls)
+	errOne := activePeerOne.Close()
+	errTwo := activePeerTwo.Close()
+
+	assert.NoError(t, errOne)
+	assert.NoError(t, errTwo)
+
+	activePeerOne.Wait()
+	activePeerTwo.Wait()
 }
