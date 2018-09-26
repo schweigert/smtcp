@@ -20,7 +20,6 @@ func NewActivePipe(lambdaSet *LambdaSet) (*ActivePeer, *ActivePeer) {
 
 func (ap *ActivePeer) Close() error {
 	ap.Closed = true
-	ap.WaitGroup.Done()
 	return ap.Peer.Close()
 }
 
@@ -29,10 +28,11 @@ func (ap *ActivePeer) Work() {
 	go func() {
 		for {
 			if ap.Closed {
-				return
+				break
 			}
 			ap.loop()
 		}
+		ap.WaitGroup.Done()
 	}()
 }
 
