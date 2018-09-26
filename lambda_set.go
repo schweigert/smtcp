@@ -16,3 +16,11 @@ func (ls *LambdaSet) Set(name string, f func(*Request)) *LambdaSet {
 func (ls *LambdaSet) Get(name string) func(*Request) {
 	return ls.lambdas[name]
 }
+
+func (ls *LambdaSet) Execute(r *Request) {
+	f := ls.Get(r.Name)
+	if f == nil {
+		return
+	}
+	f(r)
+}
