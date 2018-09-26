@@ -15,9 +15,9 @@ func NewActivePipe(lambdaSet *LambdaSet) (*ActivePeer, *ActivePeer) {
 	return NewActivePeer(peerOne, lambdaSet), NewActivePeer(peerTwo, lambdaSet)
 }
 
-func (ap *ActivePeer) Close() {
+func (ap *ActivePeer) Close() error {
 	ap.Closed = true
-	ap.Peer.Close()
+	return ap.Peer.Close()
 }
 
 func (ap *ActivePeer) Work() {
